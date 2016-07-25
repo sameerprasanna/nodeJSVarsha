@@ -3,9 +3,15 @@
  */
 'use strict';
 
+var controller = require('../controllers/core.server.controller');
+var mainController = require('../controllers/main.server.controller');
+
 module.exports = function(app){
 
-    var controller = require('../controllers/core.server.controller');
+
+    app
+        .route('/')
+        .get(mainController.index);
     app
         .route('/api/contact')
             .get(controller.getContacts)
@@ -26,5 +32,9 @@ module.exports = function(app){
     app
         .route('/api/PhoneAreaCode/:areaCode')
             .get(controller.getContactByAreaCode);
+
+    app
+        .route('/api/topcontacts')
+            .get(controller.getTop10Contacts);
 
 }

@@ -7,8 +7,6 @@
 var mongoose = require('mongoose'),
     ObjectId = mongoose.Types.ObjectId,
     Contact = mongoose.model('VContact');
-  //  Contact = require('../models/contact.server.model');
-//var contactsList = generateContacts();
 
 module.exports.saveContact = function(savableContact,callback) {
 
@@ -17,7 +15,6 @@ module.exports.saveContact = function(savableContact,callback) {
     console.log("saved contact");
 
     checkContact.save(function (err) {
-   //     if(err){callback(err);}
         console.log(checkContact);
         console.log("Mongoose ready state: " + mongoose.connection.readyState);
         callback(err, checkContact);
@@ -79,6 +76,13 @@ module.exports.findContactByCity = function (city,callback) {
 module.exports.findContactByAreaCode = function (areaCode,callback) {
     var  mobile = areaCode.substr(0,3);
     Contact.find({phone: {$regex: mobile}},{_id:0, firstName:1, lastName: 1, phone:1, city:1}, function(err, contacts){
+        if(err) callback(err);
+        else callback(null, contacts);
+    });
+}
+
+module.exports.getTop10Contacts = function (callback) {
+    Contact.find({}).limit(10).exec( function(err, contacts){
         if(err) callback(err);
         else callback(null, contacts);
     });

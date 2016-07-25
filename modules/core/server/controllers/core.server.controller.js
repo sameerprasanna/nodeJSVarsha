@@ -119,3 +119,16 @@ module.exports.getContactByAreaCode = function (req,res) {
         }
     })
 }
+
+module.exports.getTop10Contacts = function (req,res) {
+ //   var areaCode = req.params.areaCode;
+    contactService.getTop10Contacts(function (err,foundContact) {
+        if (err) {
+            res.status(400)
+                .send({message: "Error:: Unable to find contact. Please try again!!"});
+        } else {
+            res.status(200)
+                .json(foundContact);
+        }
+    })
+}
