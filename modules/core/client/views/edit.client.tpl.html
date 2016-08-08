@@ -1,0 +1,30 @@
+<div class="contacts-form-container" >
+    <form class="bs-example bs-example-form" data-example-id="input-group-sizing">
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon" id="sizing-addon1">First Name</span>
+            <input class="form-control" placeholder="firstName" aria-describedby="sizing-addon1" ng-model="contact.firstName">
+        </div>
+        <br>
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon" id="sizing-addon2">Last Name</span>
+            <input class="form-control" placeholder="lastName" aria-describedby="sizing-addon1" ng-model="contact.lastName">
+        </div>
+        <br>
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon" id="sizing-addon3">City</span>
+            <input class="form-control" placeholder="city" aria-describedby="sizing-addon1" ng-model="contact.city">
+        </div>
+        <br>
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon" id="sizing-addon4">Email</span>
+            <input class="form-control" placeholder="email" aria-describedby="sizing-addon1" ng-model="contact.email">
+        </div>
+        <br>
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon" id="sizing-addon5">Phone</span>
+            <input class="form-control" placeholder="phone" aria-describedby="sizing-addon5" ng-model="contact.phone">
+        </div>
+        <br>
+        <button type="button" class="btn btn-default" ng-click="saveContact(contact)">Submit</button>
+    </form>
+</div>

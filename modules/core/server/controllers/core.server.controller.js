@@ -41,10 +41,10 @@ module.exports.createContact = function (req,res) {
 }
 
 
-module.exports.deleteContact = function (req, res) {
+module.exports.deleteContact = function (req, res, next) {
     var contactID = req.metadata.contactId;
-
-    contactService.deleteContact(contactID,function (isDeleted) {
+    console.log("ddds");
+ /*   contactService.deleteContact(contactID,function (isDeleted) {
         if (isDeleted) {
             res.status(200)
                 .send({message: "Succesfully deleted contact."});
@@ -52,6 +52,22 @@ module.exports.deleteContact = function (req, res) {
             res.status(400)
                .send({message: "Error:: Unable to delete contact. Please try again!!"});
         }
+    });
+    */
+    var id = req.metadata.contactId;
+    contactService.deleteContact(id, function(err, contacts){
+        if(err){
+            res
+                .status(400)
+                .send("ERROR: Could not delete the Object");
+            //return ;
+        }
+        else {
+            res
+                .status(200)
+                .json(contacts)
+        }
+
     });
 }
 

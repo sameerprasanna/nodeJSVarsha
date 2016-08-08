@@ -25,7 +25,7 @@ module.exports.saveContact = function(savableContact,callback) {
 
 
 module.exports.getContacts = function (callback) {
-    Contact.find({},function (err, contacts) {
+    Contact.find({},{__v:0},function (err, contacts) {
         if(err) throw err;
         console.log(contacts);
         callback(contacts);
@@ -42,7 +42,7 @@ module.exports.findContactById = function(id,callback){
 
 module.exports.updateContact = function (contactID, updatedContact, callback) {
 
-    Contact.findByIdAndUpdate(contactID, { firstname: updatedContact.firstname, lastname: updatedContact.lastname, email: updatedContact.email, city:updatedContact.city, phone:updatedContact.phone }, function(err, contact) {
+    Contact.findByIdAndUpdate(contactID, { firstName: updatedContact.firstName, lastName: updatedContact.lastName, email: updatedContact.email, city:updatedContact.city, phone:updatedContact.phone }, function(err, contact) {
         if (err) throw err;
         updatedContact._id = contact._id;
         console.log("====updated contact=====");
@@ -52,17 +52,17 @@ module.exports.updateContact = function (contactID, updatedContact, callback) {
 
 }
 module.exports.deleteContact = function (id,callback) {
-    var isDeleted;
-    Contact.findByIdAndRemove(id, function(err) {
-        if (err){
-            console.log("Error: Unable to Delete");
-            isDeleted = false;
-        }else{
-            console.log("Contact Deleted successfully");
-            isDeleted = true;
-        }
-        callback(isDeleted);
+    Contact.findByIdAndRemove(id, function(err){
+        if(err){
+            callback(err)
+        } else
+            Contact.find({}, {__v:0}, function(err, contacts){
+                if(err) callback(err);
+                else callback(null, contacts);
+
+            })
     });
+
 }
 
 module.exports.findContactByCity = function (city,callback) {
