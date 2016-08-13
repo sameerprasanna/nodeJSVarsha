@@ -7,12 +7,24 @@ angular
     .module('ContactsApp')
         .filter('labelCase', function() {
             return function(input) {
-                input = input.replace(/([A-Z])/g,' $1');
-                return input[0].toUpperCase() + input.slice(1);
+                if(input!='_id') {
+                    input = input.replace(/([A-Z])/g, ' $1');
+                    return input[0].toUpperCase() + input.slice(1);
+                }
             }
 
-        });
+        })
 
+         .filter('dataFilter', function() {
+            return function (contact) {
+                var cont = {};
+                for(var key in contact){
+                    if(key != '_id')
+                        cont[key] = contact[key];
+                }
+            return cont;
+        }
+    })
 
 
 

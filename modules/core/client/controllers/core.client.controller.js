@@ -2,7 +2,8 @@
 
 angular
     .module('ContactsApp')
-         .controller('contactsCtrl', function($scope, $state, contactService, contactDeleteService, contactUpdateService){
+         .controller('contactsCtrl', function($scope, $state, contactService){
+             $scope.contactTestName = "test to show custom directive";
              var contactsPromise = contactService.getContacts();
              var successCallBack = function(response){
                  $scope.contacts = response;
@@ -16,7 +17,7 @@ angular
                     .error(failureCallBack);
 
              $scope.del = function(contact) {
-                 var contactsDelPromise = contactDeleteService.deleteContact(contact);
+                 var contactsDelPromise = contactService.deleteContact(contact);
                  var successCallBack = function (response) {
                      $scope.contacts = response;
                      $scope.fields = Object.keys($scope.contacts[0]|| []);
@@ -61,14 +62,11 @@ angular
             }).error(function(err){
             console.log("Error:: occured during get opertaion")
         })
-
-              
-
     })
-       .controller('saveCtrl', function($scope, contactSaveService){
+       .controller('saveCtrl', function($scope, contactService){
            var contact = $scope.contact;
            $scope.saveContact = function(contact) {
-               var contactsSavePromise = contactSaveService.createContact(contact);
+               var contactsSavePromise = contactService.createContact(contact);
                var successCallBack = function (response) {
                    console.log("success");
                }
@@ -80,7 +78,25 @@ angular
                    .error(failureCallBack);
            }
 
-    });
+    })
+        .controller('updateCtrl',['$scope','contactService','$state',function($scope, contactService,$state){
+            //update contact
+            $scope.updateContact = function(contact) {
+                var updatePromise = contactService.updateContact(contact._id, contact);
+                var successCallBack = function (response) {
+                console.log(response);
+                $state.go('display');
+            };
+
+                var failureCallBack = function (err) {
+                console.log(err);
+                    $state.go('edit');
+            }
+            updatePromise
+                .success(successCallBack)
+                .error(failureCallBack);
+        }
+    }])
 
 /*$scope.del = function(contact) {
     var contactsDelPromise = contactService.deleteContact(contact);
